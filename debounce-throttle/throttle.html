@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>加入节流-定时器 & 时间戳</title>
+</head>
+
+<body>
+  <div> 加入节流-定时器 & 时间戳：<input type="text" id="throttle" />
+  </div>
+  <script>
+    window.onload = () => {
+      function ajax(data) {
+        console.log(new Date().toLocaleTimeString() + ' - ' + data)
+      }
+
+      function throttle(fn, delay) {
+        let last;
+        return args => {
+          let now = Date.now()
+          if (last && now < last + delay) {
+            clearTimeout(fn.id)
+            fn.id = setTimeout(() => {
+              fn.call(this, args)
+              last = now
+            }, delay)
+          } else {
+            fn.call(this, args)
+            last = now
+          }
+        }
+      }
+
+      const throttleAjax = throttle(ajax, 1000)
+
+      document.querySelector('#throttle').addEventListener('keyup', e => {
+        throttleAjax(e.target.value)
+      })
+    }
+  </script>
+</body>
+
+</html>

@@ -1,5 +1,7 @@
 self.onmessage = function(event) {
+  importScripts('./test.js');
   var data = event.data;
+  console.log(data)
   var ans = fibonacci(data);
   this.postMessage(ans);
 };

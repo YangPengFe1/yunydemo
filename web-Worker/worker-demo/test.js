@@ -1,0 +1,1 @@
+console.log('我是在worker 中 引入进来的 test.js')

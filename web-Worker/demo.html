@@ -1,0 +1,8 @@
+<div style="width:100px;height:100px;background-color:red;"></div>
+<script>
+  document.querySelector('div').onclick = function() {
+    console.log('hello world');
+  };
+  function fibonacci(n) { return n < 2 ? n : arguments.callee(n - 1) + arguments.callee(n - 2); }
+  console.log(fibonacci(38));
+</script>

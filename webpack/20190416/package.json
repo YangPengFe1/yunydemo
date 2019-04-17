@@ -1,0 +1,19 @@
+{
+  "name": "20190416",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "dependencies": {
+    "webpack-cli": "^3.3.0",
+    "webpack": "^4.30.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "bundle": "webpack",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

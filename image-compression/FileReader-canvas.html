@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="file" name="" id="fileBnt" accept="image/png,image/jpeg,image/jpg">
+  <div>
+    <p>压缩前 </p>
+    <img src="" alt="压缩前" id="before">
+  </div>
+  <div>
+    <p>压缩后 </p>
+    <img src="" alt="压缩后" id="after">
+  </div>
+</body>
+<script>
+
+  var fileBnt = document.getElementById('fileBnt');
+  var before = document.getElementById('before');
+  var after = document.getElementById('after');
+  fileBnt.addEventListener('change', e => {
+    const file = e.target.files[0]
+    if (typeof FileReader === 'function') {
+      console.log('FileReader ok');
+      const reader = new FileReader();
+      reader.onload = event => {
+        before.setAttribute('src', event.target.result)
+        let canvas = document.createElement('canvas')
+        let context = canvas.getContext('2d')
+        let img = new Image()
+        img.src = event.target.result
+        img.onload = function() {
+          // 图片原始尺寸
+          let originWidth = this.width
+          let originHeight = this.height
+          // 最大尺寸限制
+          let maxWidth = 600
+          let maxHeight = 600
+          let targetWidth = originWidth
+          let targetHeight = originHeight
+          if (originWidth > maxWidth || originHeight > maxHeight) {
+            if (originWidth / originHeight > maxWidth / maxHeight) {
+              // 更宽，按照宽度限定尺寸
+              targetWidth = maxWidth
+              targetHeight = Math.round(maxWidth * (originHeight / originWidth))
+            } else {
+              targetHeight = maxHeight
+              targetWidth = Math.round(maxHeight * (originWidth / originHeight))
+            }
+          }
+          // canvas对图片进行缩放
+          canvas.width = targetWidth
+          canvas.height = targetHeight
+          // 清除画布
+          context.clearRect(0, 0, targetWidth, targetHeight)
+          // 图片压缩
+          context.drawImage(img, 0, 0, targetWidth, targetHeight)
+          let compressedBase64Img = canvas.toDataURL('image/jpeg', 1)
+          after.setAttribute('src', compressedBase64Img)
+          // 显示压缩比例
+          let el_p = document.createElement('p')
+          el_p.innerHTML = `压缩比率：${(
+            (event.target.result.length - compressedBase64Img.length) /
+            event.target.result.length *
+            100
+          ).toFixed(2)}%`
+          document.body.appendChild(el_p)
+        }
+      }
+      reader.readAsDataURL(file)
+    }
+  })
+
+</script>
+
+</html>

@@ -1,16 +1,20 @@
 <html>
 
 <head>
+  <script src="https://threejsfundamentals.org/threejs/resources/threejs/r103/three.js"></script>
+  <script src="https://threejsfundamentals.org/threejs/resources/threejs/r103/js/controls/OrbitControls.js"></script>
+  <script src="https://threejsfundamentals.org/threejs/resources/threejs/r103/js/loaders/GLTFLoader.js"></script>
+  <script src="https://threejsfundamentals.org/threejs/../3rdparty/dat.gui.min.js"></script>
   <script src="jquery.min.js"></script>
-  <script src="three.min.js"></script>
+  <!-- <script src="three.min.js"></script>
   <script src="GLTFLoader.js"></script>
-  <script src="OrbitControls.js"></script>
+  <script src="OrbitControls.js"></script> -->
   <script>
     $(function() {
       let scene, camera, renderer, controls;
-
       /* 调用 */
-      init("model.gltf");
+      init('http://192.168.1.225:8888/group1/M00/00/AB/wKgB4VznaoqAYiIEACdo-FTZ54s22.gltf');
+      // init('https://threejsfundamentals.org/threejs/resources/models/cartoon_lowpoly_small_city_free_pack/scene.gltf');
       animate();
 
       /* 场景 */
@@ -57,10 +61,10 @@
         var textureLoader = new THREE.TextureLoader();
         // 加载 glTF 格式的模型
         let loader = new THREE.GLTFLoader(); /*实例化加载器*/
+        loader.setCrossOrigin(true);
         loader.load(gltfFilePath, function(obj) {
-          console.log(obj);
+          // console.log(obj);
           obj.scene.traverse(function(child) {
-            console.log('11111111111', child)
             if (child.isMesh) {
               child.material.emissive = child.material.color;
               child.material.emissiveMap = child.material.map;

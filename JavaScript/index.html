@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  .container {
+    height: 600px;
+    width: 800px;
+    margin: 100px auto;
+    border: 1px solid skyblue;
+  }
+
+  ul li {
+    list-style: none;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <button id="btn">点击</button>
+    <ul>
+      <li>asdasdas</li>
+    </ul>
+  </div>
+</body>
+<script>
+
+  window.onload = function() {
+    function jsonp(url) {
+      const script = document.createElement('script');
+      script.src = url;
+      script.type = 'text/javascript';
+      document.body.appendChild(script);
+    }
+    function msg(res) {
+      alert(res.data);
+    }
+    jsonp('https://api.apiopen.top/musicBroadcasting?callback=msg');
+  }
+
+
+
+</script>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+  <div id="echartMap" style="width: 1000px;height:1000px;"></div>
+  <script src="jquery.min.js"></script>
+  <script src="echarts.min.js"></script>
+  <script src="guizhou.js"></script>
+  <script src="ColdCar.js"></script>
+  <script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('echartMap'));
+    console.log(JSON.stringify(coldCar))
+    var option = {
+      tooltip: {
+        show: true,
+        trigger: 'item',
+        triggerOn: 'click',
+        formatter: "名称:{b}<br />坐标:{c}"
+      },
+      series: [{
+        name: "冷链运输车分布",
+        type: 'custom',//配置显示方式为用户自定义
+        coordinateSystem: 'geo',
+        itemStyle: {
+          normal: {
+            color: '#46bee9'
+          }
+        },
+        // renderItem: function(params, api) {//具体实现自定义图标的方法
+        //   console.log(11111, api)
+        //   console.log(22222, params)
+        //   return {
+        //     type: 'image',
+        //     style: {
+        //       image: "汽车.png",
+        //       x: api.coord([
+        //         coldCar[params.dataIndex].value[0], coldCar[params.dataIndex]
+        //           .value[1]
+        //       ])[0],
+        //       y: api.coord([
+        //         coldCar[params.dataIndex].value[0], coldCar[params.dataIndex]
+        //           .value[1]
+        //       ])[1]
+        //     }
+        //   }
+        // },
+        data: coldCar
+      }],
+      legend: {
+        type: "plain",
+        show: true,
+        orient: 'vertical',
+        top: 'middle',
+        left: 'left',
+        data: [
+          {
+            name: "冷链运输车分布",
+            icon: "circle",
+            textStyle: {
+              color: "#a9d6fa"
+            }
+          }
+        ]
+      },
+      geo: {//引入贵州省的地图
+        map: '贵州'
+      }
+    };
+    myChart.setOption(option);
+  </script>
+</body>
+
+</html>

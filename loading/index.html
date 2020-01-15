@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>loadng-demo</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #333;
+    }
+    .map-loading__container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map-loading__container" class="map-loading__container">
+</body>
+<script>
+  function initLoading() {
+    var load = {}
+    load.Particle = function(opt) {
+      this.radius = 7
+      this.x = opt.x
+      this.y = opt.y
+      this.angle = opt.angle
+      this.speed = opt.speed
+      this.accel = opt.accel
+      this.decay = 0.01
+      this.life = 1
+    }
+
+    load.Particle.prototype.step = function(i) {
+      this.speed += this.accel
+      this.x += Math.cos(this.angle) * this.speed
+      this.y += Math.sin(this.angle) * this.speed
+      this.angle += load.PI / 64
+      this.accel *= 1.01
+      this.life -= this.decay
+
+      if (this.life <= 0) {
+        load.particles.splice(i, 1)
+      }
+    }
+
+    load.Particle.prototype.draw = function(i) {
+      load.ctx.fillStyle = load.ctx.strokeStyle = 'hsla(' + (load.tick + (this.life * 120)) + ', 100%, 60%, ' + this.life + ')'
+      load.ctx.beginPath()
+      if (load.particles[i - 1]) {
+        load.ctx.moveTo(this.x, this.y)
+        load.ctx.lineTo(load.particles[i - 1].x, load.particles[i - 1].y)
+      }
+      load.ctx.stroke()
+
+      load.ctx.beginPath()
+      load.ctx.arc(this.x, this.y, Math.max(0.001, this.life * this.radius), 0, load.TWO_PI)
+      load.ctx.fill()
+
+      var size = Math.random() * 1.25
+      load.ctx.fillRect(~~(this.x + ((Math.random() - 0.5) * 35) * this.life), ~~(this.y + ((Math.random() - 0.5) * 35) * this.life), size, size)
+    }
+
+    load.step = function() {
+      load.particles.push(new load.Particle({
+        x: load.width / 2 + Math.cos(load.tick / 20) * load.min / 2,
+        y: load.height / 2 + Math.sin(load.tick / 20) * load.min / 2,
+        angle: load.globalRotation + load.globalAngle,
+        speed: 0,
+        accel: 0.01
+      }))
+
+      load.particles.forEach(function(elem, index) {
+        elem.step(index)
+      })
+
+      load.globalRotation += load.PI / 6
+      load.globalAngle += load.PI / 6
+    }
+
+    load.draw = function() {
+      load.ctx.clearRect(0, 0, load.width, load.height)
+      load.particles.forEach(function(elem, index) {
+        elem.draw(index)
+      })
+    }
+
+    load.init = function() {
+      load.canvas = document.createElement('canvas')
+      load.ctx = load.canvas.getContext('2d')
+      load.width = 300
+      load.height = 300
+      load.canvas.width = load.width * window.devicePixelRatio
+      load.canvas.height = load.height * window.devicePixelRatio
+      load.canvas.style.width = load.width + 'px'
+      load.canvas.style.height = load.height + 'px'
+      load.ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
+      load.min = load.width * 0.5
+      load.particles = []
+      load.globalAngle = 0
+      load.globalRotation = 0
+      load.tick = 0
+      load.PI = Math.PI
+      load.TWO_PI = load.PI * 2
+      load.ctx.globalCompositeOperation = 'lighter'
+      let obj = document.getElementById('map-loading__container')
+      obj.appendChild(load.canvas)
+      load.loop()
+    }
+
+    load.loop = function() {
+      requestAnimationFrame(load.loop)
+      load.step()
+      load.draw()
+      load.tick++
+    }
+
+    load.init()
+  }
+  window.onload = function () {
+    initLoading()
+  }
+</script>
+
+</html>

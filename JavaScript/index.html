@@ -26,6 +26,8 @@
 </style>
 
 <body>
+  <input type="text" name="" id="input">
+  <span id="span"></span>
   <div class="container">
     <button id="btn">点击</button>
     <ul>
@@ -33,7 +35,25 @@
     </ul>
   </div>
 </body>
+<script src="./defineproperty.js"></script>
 <script>
+
+
+  const obj = {}
+  Object.defineProperty(obj, 'text', {
+    get: () => {
+      console.log('get val')
+    },
+    set: (newVal) => {
+      console.log('set val:' + newVal);
+      document.getElementById('span').innerHTML = newVal
+    }
+  })
+
+  const input = document.getElementById('input');
+  input.addEventListener('keyup', function(e) {
+    obj.text = e.target.value;
+  })
 
   window.onload = function() {
     function jsonp(url) {

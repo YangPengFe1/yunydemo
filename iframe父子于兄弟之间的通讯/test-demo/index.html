@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/index.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body,
+    .box {
+      width: 100%;
+      height: 100%;
+    }
+
+    .box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .item {
+      width: 50%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="item">
+      <iframe src="./html/iframe1.html" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+    <div class="item">
+      <iframe src="./html/iframe2.html" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+  </div>
+  <!-- <div class="container__box">
+    <div class="box-item">
+      <button class="btn1">点击1</button>
+      <button id="btn2">点击2</button>
+      <button class="btn3">点击3</button>
+    </div>
+    <div class="box-item">
+      <div class="inner-wrapper">
+        <button class="btn1">点击1</button>
+        <button id="btn2">点击2</button>
+        <button class="btn3">点击3</button>
+      </div>
+
+    </div>
+  </div> -->
+
+</body>
+<script>
+
+  window.addEventListener('message', function (e) {
+    console.log('来自子iframe1的数据', e.data)
+    let iframes = document.getElementsByTagName('iframe')
+    let index = null
+    for (let i = 0; i < iframes.length; i++) {
+      const item = iframes[i];
+      if (item.src.indexOf('iframe1') === -1) {
+        index = i
+        break
+      }
+    }
+    // 监听子页面传来的数据
+    iframes[index].contentWindow.postMessage('onjson', '*');
+  }, false)
+</script>
+<!-- <script src="./js/event/index.js"></script>
+<script src="./js/index.js"></script> -->
+
+</html>

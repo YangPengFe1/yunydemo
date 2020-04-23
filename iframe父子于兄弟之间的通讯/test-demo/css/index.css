@@ -1,0 +1,29 @@
+button {
+  width: 100px;
+  height: 40px;
+  font-size: 14px;
+}
+.div {
+  height: 400px;
+  width: 100%;
+  background: #333333;
+}
+.container__box {
+  padding: 30px;
+}
+.box-item {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 300px;
+  background: #f12ca4;
+  margin-bottom: 24px;
+}
+.inner-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 60%;
+  height: 100%;
+}

@@ -1,40 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>防抖函数思路实现</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>防抖函数思路实现</title>
-</head>
+  <body>
+    <div>
+      <input type="text" id="debounce" />
+    </div>
+  </body>
+  <script>
+    /**
+     * @desc 函数防抖
+     * @param func 函数
+     * @param wait 延迟执行毫秒数
+     * @param immediate true 表立即执行，false 表非立即执行
+     */
+    function debounce(func, wait, immediate) {
+      let timeout;
+      return function () {
+        let context = this;
+        let args = arguments;
 
-<body>
-  <div>
-    <input type="text" id="debounce" />
-  </div>
-</body>
-<script>
-  window.onload = () => {
-    // mock request
-    function AJAX_MOCK(date) {
-      console.log(new Date().toLocaleDateString() + ' - ' + date)
-    };
-
-    function debounce(fn, delay) {
-      return args => {
-        clearTimeout(fn.id)
-        fn.id = setTimeout(() => {
-          fn.call(this, args)
-        }, delay)
-      }
+        if (timeout) clearTimeout(timeout);
+        if (immediate) {
+          let callNow = !timeout;
+          timeout = setTimeout(() => {
+            timeout = null;
+          }, wait);
+          if (callNow) func.apply(context, args);
+        } else {
+          timeout = setTimeout(() => {
+            func.apply(context, args);
+          }, wait);
+        }
+      };
     }
 
-    const debounceAjax = debounce(AJAX_MOCK, 1000)
+    window.onload = () => {
+      // mock request
+      function AJAX_MOCK(date) {
+        console.log(new Date().toLocaleDateString() + " - " + date);
+      }
 
-    document.querySelector('#debounce').addEventListener('keyup', e => {
-      debounceAjax(e.target.value)
-    })
-  }
-</script>
+      function debounce(fn, delay) {
+        return (args) => {
+          clearTimeout(fn.id);
+          fn.id = setTimeout(() => {
+            fn.call(this, args);
+          }, delay);
+        };
+      }
 
+      const debounceAjax = debounce(AJAX_MOCK, 1000);
+
+      document.querySelector("#debounce").addEventListener("keyup", (e) => {
+        debounceAjax(e.target.value);
+      });
+    };
+  </script>
 </html>

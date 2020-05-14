@@ -1,43 +1,73 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>加入节流-定时器 & 时间戳</title>
+  </head>
 
-<head>
-  <title>加入节流-定时器 & 时间戳</title>
-</head>
-
-<body>
-  <div> 加入节流-定时器 & 时间戳：<input type="text" id="throttle" />
-  </div>
-  <script>
-    window.onload = () => {
-      function ajax(data) {
-        console.log(new Date().toLocaleTimeString() + ' - ' + data)
-      }
-
-      function throttle(fn, delay) {
-        let last;
-        return args => {
-          let now = Date.now()
-          if (last && now < last + delay) {
-            clearTimeout(fn.id)
-            fn.id = setTimeout(() => {
-              fn.call(this, args)
-              last = now
-            }, delay)
-          } else {
-            fn.call(this, args)
-            last = now
-          }
+  <body>
+    <div>加入节流-定时器 & 时间戳：<input type="text" id="throttle" /></div>
+    <script>
+      /**
+       * @desc 函数节流
+       * @param func 函数
+       * @param wait 延迟执行毫秒数
+       * @param type 1 表时间戳版，2 表定时器版
+       */
+      function throttle(func, wait, type) {
+        if (type === 1) {
+          let previous = 0;
+        } else if (type === 2) {
+          let timeout;
         }
+        return function () {
+          let context = this;
+          let args = arguments;
+          if (type === 1) {
+            let now = Date.now();
+
+            if (now - previous > wait) {
+              func.apply(context, args);
+              previous = now;
+            }
+          } else if (type === 2) {
+            if (!timeout) {
+              timeout = setTimeout(() => {
+                timeout = null;
+                func.apply(context, args);
+              }, wait);
+            }
+          }
+        };
       }
+      
+      window.onload = () => {
+        function ajax(data) {
+          console.log(new Date().toLocaleTimeString() + " - " + data);
+        }
 
-      const throttleAjax = throttle(ajax, 1000)
+        function throttle(fn, delay) {
+          let last;
+          return (args) => {
+            let now = Date.now();
+            if (last && now < last + delay) {
+              clearTimeout(fn.id);
+              fn.id = setTimeout(() => {
+                fn.call(this, args);
+                last = now;
+              }, delay);
+            } else {
+              fn.call(this, args);
+              last = now;
+            }
+          };
+        }
 
-      document.querySelector('#throttle').addEventListener('keyup', e => {
-        throttleAjax(e.target.value)
-      })
-    }
-  </script>
-</body>
+        const throttleAjax = throttle(ajax, 1000);
 
+        document.querySelector("#throttle").addEventListener("keyup", (e) => {
+          throttleAjax(e.target.value);
+        });
+      };
+    </script>
+  </body>
 </html>

@@ -1,48 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
+      html,
+      body,
+      .container_1 {
+        width: 100%;
+        height: 100%;
+      }
 
-    html,
-    body,
-    .container_1 {
-      width: 100%;
-      height: 100%;
-    }
+      .container_1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #cccccc;
+      }
 
-    .container_1 {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #cccccc;
-    }
+      button {
+        width: 100px;
+        height: 40px;
+      }
+    </style>
+  </head>
 
-    button {
-      width: 100px;
-      height: 40px;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container_1">
-    <button id="btn_1">点击按钮1</button>
-  </div>
-
-</body>
-<script>
-  let btn_1 = document.getElementById('btn_1')
-  btn_1.onclick = function () {
-    window.parent.postMessage('onhandler', '*')
-  }
-</script>
-
+  <body>
+    <div class="container_1">
+      <button id="btn_1">点击按钮1</button>
+    </div>
+  </body>
+  <script>
+    // var iframes = parent.document.getElementsByTagName("iframe");
+    // console.log(iframes[0].getAttribute("src"))
+    let btn_1 = document.getElementById("btn_1");
+    btn_1.onclick = function () {
+      console.log(window.name);
+      console.log(window.location.hash);
+      window.parent.postMessage("onhandler", "*");
+    };
+  </script>
 </html>

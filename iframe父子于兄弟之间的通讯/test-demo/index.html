@@ -60,7 +60,7 @@
 
 </body>
 <script>
-
+  console.log(window.frameElement)
   window.addEventListener('message', function (e) {
     console.log('来自子iframe1的数据', e.data)
     let iframes = document.getElementsByTagName('iframe')

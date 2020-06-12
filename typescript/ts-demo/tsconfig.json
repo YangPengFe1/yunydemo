@@ -5,6 +5,7 @@
     "outDir": "./dist", // 指定编译目录
     // "outFile": "./dist/bundle.js" // 指定合并文件名
     // "strictNullChecks": true // 在严格的 null检查模式下， null和 undefined值不包含在任何类型里，只允许用它们自己和 any来赋值（有个例外， undefined可以赋值到 void）。
+    "noImplicitThis": true // 	当 this表达式的值为 any类型的时候，生成一个错误。
   },
   "include": ["./src/**/*"], // include: 指定要编译的文件目录，[], * 匹配 0或者多个字符（不包括目录分隔符）；? 匹配一个任意字符（不包括目录分隔符）；**/ 递归匹配任意子目录
   "exclude": ["/dist"]

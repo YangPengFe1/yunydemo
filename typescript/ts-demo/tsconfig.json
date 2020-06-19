@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "AMD", // 指定模块胡啊类型
-    "target": "ES3", // 指定输出版本的代码
+    "target": "ES5", // 指定输出版本的代码
     "outDir": "./dist", // 指定编译目录
     // "outFile": "./dist/bundle.js" // 指定合并文件名
     // "strictNullChecks": true // 在严格的 null检查模式下， null和 undefined值不包含在任何类型里，只允许用它们自己和 any来赋值（有个例外， undefined可以赋值到 void）。

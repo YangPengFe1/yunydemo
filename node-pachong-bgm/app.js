@@ -1,8 +1,9 @@
 const fs = require("fs");
+const ora = require("ora");
+const chalk = require("chalk");
 const path = require("path");
 const request = require("request");
 const cheerio = require("cheerio");
-const async = require("async");
 let params_config = require("./params.config");
 let toolsfun = require("./utils/tools");
 
@@ -29,39 +30,110 @@ function getDownloadList() {
   });
 }
 
-function fileDownload(item, callback) {
-  request(item.url)
-    .pipe(
-      fs.createWriteStream(path.join(__dirname, `./BGM/史诗级/${item.name.split('/')[1]}`))
-    )
-    .on("error", function (err) {
-      callback(item);
-    })
-    .on("close", () => {
-      callback(item);
-    });
+function fileDownload(item) {
+  return new Promise((resolve, reject) => {
+    let tip = chalk.hex("#ffa34d")(`--- 正在下载 => ${item.name} ---`);
+    const spinner = ora(`Loading ${tip}`).start();
+    request(item.url)
+      .pipe(
+        fs.createWriteStream(
+          path.join(__dirname, `./BGM/史诗级/${item.name.split("/")[1]}`)
+        )
+      )
+      .on("error", function (err) {
+        console.log(res);
+        console.log("error");
+        let tip = chalk.hex("#eb4559")(`--- ${item.name} => 下载失败 ---`);
+        spinner.fail(tip);
+        reject({ success: false, data: err });
+      })
+      .on("finish", (res) => {
+        console.log(res);
+        console.log("finish");
+        let tip = chalk.hex("#008000")(`--- ${item.name} => 下载成功 ---`);
+        spinner.succeed(tip);
+        resolve({ success: true, data: item });
+      })
+      .on("close", (res) => {
+        console.log(res);
+        console.log("close");
+        let tip = chalk.hex("#008000")(`--- ${item.name} => 下载成功 ---`);
+        spinner.succeed(tip);
+        resolve({ success: true, data: item });
+      });
+  });
 }
 
-function bulkDownloads(filesList) {
-  async.eachSeries(
-    filesList,
-    (item, callback) => {
-      fileDownload(item, (item) => {
-        console.log(`----下载${item.name.split('/')[1]}成功----`);
-        callback()
-      });
-    },
-    (err) => {
-      console.log(err);
-      callback();
+function __downloads__(list) {
+  (async () => {
+    let results = [];
+    for (let i = 0; i < list.length; i++) {
+      console.log(i);
+      const res = await fileDownload(list[i]);
+      console.log(res);
+      res.success ? results.push(res) : "";
     }
-  );
+    downloadsComplete(results);
+  })();
+}
+
+function downloadsComplete(results) {
+  console.log(`下载完成，共下载${results.length}首`);
 }
 
 let __init__ = function () {
-  getDownloadList().then((res) => {
-    bulkDownloads(res);
-  });
+  let sssss = [
+    {
+      url:
+        "https://freepd.com/Page2/music/Monplaisir%20-%20Relaxing%20Ukulele%20-%2008%20Hop.mp3",
+      name: "music/Monplaisir - Relaxing Ukulele - 08 Hop.mp3",
+    },
+    {
+      url: "https://freepd.com/Page2/music/Monster.mp3",
+      name: "music/Monster.mp3",
+    },
+    {
+      url: "https://freepd.com/Page2/music/Montageur.mp3",
+      name: "music/Montageur.mp3",
+    },
+    {
+      url: "https://freepd.com/Page2/music/Moogalicious.mp3",
+      name: "music/Moogalicious.mp3",
+    },
+    {
+      url: "https://freepd.com/Page2/music/Morning%20Snowflake.mp3",
+      name: "music/Morning Snowflake.mp3",
+    },
+    {
+      url:
+        "https://freepd.com/Page2/music/Music%20for%20Funeral%20Home%20-%20Part%201.mp3",
+      name: "music/Music for Funeral Home - Part 1.mp3",
+    },
+    {
+      url:
+        "https://freepd.com/Page2/music/Music%20for%20Funeral%20Home%20-%20Part%2010.mp3",
+      name: "music/Music for Funeral Home - Part 10.mp3",
+    },
+    {
+      url:
+        "https://freepd.com/Page2/music/Music%20for%20Funeral%20Home%20-%20Part%202.mp3",
+      name: "music/Music for Funeral Home - Part 2.mp3",
+    },
+    {
+      url:
+        "https://freepd.com/Page2/music/Music%20for%20Funeral%20Home%20-%20Part%203.mp3",
+      name: "music/Music for Funeral Home - Part 3.mp3",
+    },
+    {
+      url:
+        "https://freepd.com/Page2/music/Music%20for%20Funeral%20Home%20-%20Part%204.mp3",
+      name: "music/Music for Funeral Home - Part 4.mp3",
+    },
+  ];
+  __downloads__(sssss);
+  // getDownloadList().then((res) => {
+  //   bulkDownloads(res);
+  // });
 };
 
 __init__();

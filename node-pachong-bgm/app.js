@@ -3,6 +3,7 @@ const ora = require("ora");
 const chalk = require("chalk");
 const path = require("path");
 const request = require("request");
+const https = require("https");
 const cheerio = require("cheerio");
 let params_config = require("./params.config");
 let toolsfun = require("./utils/tools");
@@ -30,37 +31,51 @@ function getDownloadList() {
   });
 }
 
-function fileDownload(item) {
-  return new Promise((resolve, reject) => {
-    let tip = chalk.hex("#ffa34d")(`--- 正在下载 => ${item.name} ---`);
-    const spinner = ora(`Loading ${tip}`).start();
-    request(item.url)
-      .pipe(
-        fs.createWriteStream(
-          path.join(__dirname, `./BGM/史诗级/${item.name.split("/")[1]}`)
-        )
-      )
-      .on("error", function (err) {
-        console.log(res);
-        console.log("error");
-        let tip = chalk.hex("#eb4559")(`--- ${item.name} => 下载失败 ---`);
-        spinner.fail(tip);
-        reject({ success: false, data: err });
-      })
-      .on("finish", (res) => {
-        console.log(res);
-        console.log("finish");
-        let tip = chalk.hex("#008000")(`--- ${item.name} => 下载成功 ---`);
-        spinner.succeed(tip);
-        resolve({ success: true, data: item });
-      })
-      .on("close", (res) => {
-        console.log(res);
-        console.log("close");
-        let tip = chalk.hex("#008000")(`--- ${item.name} => 下载成功 ---`);
-        spinner.succeed(tip);
-        resolve({ success: true, data: item });
-      });
+async function downloadsCopy(item) {
+  let filePath = path.join(
+    __dirname,
+    `./BGM/史诗级/${item.name.split("/")[1]}`
+  );
+  let filename = item.name;
+  let tip = chalk.hex("#ffa34d")(`--- 正在下载 => ${item.name} ---`);
+  const spinner = ora(`Loading ${tip}`).start();
+  fs.exists(filePath, function (exists) {
+    if (exists) {
+      let tip = chalk.hex("#eb4559")(`--- ${item.name} => 文件已存在 ---`);
+      spinner.fail(tip);
+    } else {
+      https
+        .get(item.url, function (res) {
+          // console.log(chalk.magenta('$ ') + chalk.white('开始下载 ') + chalk.white(filename));
+          res.on("data", function (chunk) {
+            fs.appendFileSync(filePath, chunk);
+          });
+
+          res.on("end", function () {
+            console.log(
+              chalk.green("✓ ") +
+                chalk.yellow("下载 ") +
+                chalk.blue(filename) +
+                chalk.green(" 成功!")
+            );
+            let tip = chalk.hex("#008000")(
+              `--- ${item.name} => ✓ 下载成功 ---`
+            );
+            spinner.succeed(tip);
+          });
+        })
+        .on("error", function (err) {
+          console.log(
+            chalk.red("X ") +
+              chalk.yellow("下载 ") +
+              chalk.blue(filename) +
+              chalk.red(" 失败!")
+          );
+          let tip = chalk.hex("#eb4559")(`--- ${item.name} => X 下载失败 ---`);
+          spinner.fail(tip);
+          console.log(err);
+        });
+    }
   });
 }
 
@@ -68,10 +83,7 @@ function __downloads__(list) {
   (async () => {
     let results = [];
     for (let i = 0; i < list.length; i++) {
-      console.log(i);
-      const res = await fileDownload(list[i]);
-      console.log(res);
-      res.success ? results.push(res) : "";
+      await downloadsCopy(list[i]);
     }
     downloadsComplete(results);
   })();

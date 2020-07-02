@@ -40,20 +40,21 @@ function downloadFile(url, dest) {
       } else {
         file.close();
         fs.unlink(dest, () => {}); // Delete temp file
-        reject(
-          `Server responded with ${response.statusCode}: ${response.statusMessage}`
-        );
+        reject({
+          success: false,
+          data: `Server responded with ${response.statusCode}: ${response.statusMessage}`,
+        });
       }
     });
 
     request.on("error", (err) => {
       file.close();
       fs.unlink(dest, () => {}); // Delete temp file
-      reject(err.message);
+      reject({ success: false, data: err.message });
     });
 
     file.on("finish", () => {
-      resolve();
+      resolve({ success: true, data: dest });
     });
 
     file.on("error", (err) => {
@@ -62,7 +63,7 @@ function downloadFile(url, dest) {
         reject("File already exists");
       } else {
         fs.unlink(dest, () => {}); // Delete temp file
-        reject(err.message);
+        reject({ success: false, data: err.message });
       }
     });
   });
@@ -86,9 +87,13 @@ function downloadsComplete(results) {
 }
 
 function __init__() {
-  getDownloadList().then((res) => {
-    __downloads__(res);
-  });
+  downloadFile(
+    "https://freepd.com/Page2/music/Monplaisir%20-%20Relaxing%20Ukulele%20-%2007%20Floating%20Temple.mp3",
+    "./BGM/史诗级/shdkf.mp3"
+  );
+  // getDownloadList().then((res) => {
+  //   __downloads__(res);
+  // });
 }
 
 __init__();

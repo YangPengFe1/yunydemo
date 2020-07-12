@@ -2,4 +2,5 @@
 /webpack/second-demo/node_modules
 /mapbox-demo/node_modules
 /typescript/ts-demo/node_modules
+/koa-demo/node_modules
 /typescript/ts-demo/dist

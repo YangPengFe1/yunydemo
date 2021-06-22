@@ -1,0 +1,11 @@
+.todo_list__container {
+  width: 100%;
+  height: calc(100vh - 60px);
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  padding: 5px;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

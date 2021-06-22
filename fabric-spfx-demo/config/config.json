@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "fabric-and-fluent-demo-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/fabricAndFluentDemo/FabricAndFluentDemoWebPart.js",
+          "manifest": "./src/webparts/fabricAndFluentDemo/FabricAndFluentDemoWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "FabricAndFluentDemoWebPartStrings": "lib/webparts/fabricAndFluentDemo/loc/{locale}.js"
+  }
+}

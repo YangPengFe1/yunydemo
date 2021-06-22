@@ -1,0 +1,17 @@
+.container {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  .containerHeader {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    .input_set {
+      width: 140px;
+    }
+    .table_box {
+      flex: 1;
+    }
+  }
+}

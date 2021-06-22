@@ -1,0 +1,31 @@
+.active {
+  background: #a39d9d;
+  font-weight: bold;
+}
+
+.item {
+  height: 60px;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a {
+    text-decoration: none;
+  }
+
+  a:link {
+    text-decoration: none;
+  }
+  a:visited {
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: none;
+  }
+  a:active {
+    text-decoration: none;
+  }
+  a:focus {
+    text-decoration: none;
+  }
+}

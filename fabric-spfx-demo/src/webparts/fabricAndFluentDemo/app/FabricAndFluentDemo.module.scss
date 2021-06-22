@@ -1,0 +1,61 @@
+$social-colors: (
+  dribble: #ea4c89,
+  facebook: #3b5998,
+  github: #171515,
+  google: #db4437,
+  twitter: #55acee,
+  default: #f0f0f0,
+);
+
+.fabricAndFluentDemo {
+  width: 100%;
+  height: 100%;
+  .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .header {
+      height: 60px;
+      width: 100%;
+      background: map-get($social-colors, default);
+      display: flex;
+    }
+    .body {
+      flex: 1;
+    }
+  }
+  .col {
+    height: 100px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .LayoutPageDemoPink {
+    background: pink;
+  }
+  .LayoutPageDemoBlock {
+    background: paleturquoise;
+  }
+
+  .innerDiv {
+    width: 100%;
+    height: 100%;
+  }
+  .container1 {
+    display: flex;
+    width: 100%;
+    height: 100px;
+    .item {
+      margin-bottom: 20px;
+      flex: 1;
+      &:nth-child(1) {
+        @extend .LayoutPageDemoPink;
+      }
+      &:nth-child(2) {
+        @extend .LayoutPageDemoBlock;
+      }
+    }
+  }
+}

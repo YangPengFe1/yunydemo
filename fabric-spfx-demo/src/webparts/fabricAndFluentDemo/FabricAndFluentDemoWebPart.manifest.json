@@ -1,0 +1,24 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "10a1da54-6023-42f3-bb6b-0ce4bdd29804",
+  "alias": "FabricAndFluentDemoWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart", "SharePointFullPage"],
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": { "default": "Other" },
+      "title": { "default": "FabricAndFluentDemo" },
+      "description": { "default": "FabricAndFluentDemo description" },
+      "officeFabricIconFontName": "Page",
+      "properties": {
+        "description": "FabricAndFluentDemo",
+        "fullBleed": "Turn on Full Screen",
+        "fullBleedCheckbox": true
+      }
+    }
+  ]
+}

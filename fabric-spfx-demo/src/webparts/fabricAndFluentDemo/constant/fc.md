@@ -7,6 +7,9 @@
 对于这两个 场景就可以使用useReducer + useContext来模拟一个redux来进行状态管理
 
 封装一个useReducer+useContext组件
+
+```
+
 import React, {
   Dispatch, 
   useReducer, 
@@ -69,10 +72,14 @@ function createReducerContext<T, A>(
 }
 
 export default createReducerContext; 
-复制代码
+```
+
 如上代码，我们封装了一个通用的createReducerContext, 接下来看一下如何使用这个组件呢
 
 使用封装的组件
+
+```
+
 初始化context
 // 声明一个action_type
 export enum ACTION_TYPE {
@@ -128,9 +135,11 @@ const contextResult: ReducerContextResult<IState, IAction> = createReducerContex
 }); 
 
 export const { useStore, useDispatch, StoreProvider } = contextResult; 
+```
 
-复制代码
 在容器页面使用StoreProvider
+
+```
 
 import {StoreProvider} from './context'
 
@@ -160,3 +169,4 @@ const UserList = (props) => {
 
   }
 }
+```

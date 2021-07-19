@@ -1,7 +1,7 @@
 /*
  * @Date: 2021-07-19 13:50:29
  * @LastEditors: Mason.Yang
- * @LastEditTime: 2021-07-19 13:59:18
+ * @LastEditTime: 2021-07-19 15:49:49
  * @FilePath: \yunydemo\lall-mason\js.js
  * @Description: $1
  */
@@ -119,3 +119,7 @@ describe('SharePoint model', () => {
         expect(s.version).toEqual('15.0.4693.1000');
     });
 });
+
+
+
+npm i jest@26.4.2 @types/jest@26.0.13 ts-jest@26.3.0 jest-junit@11.1.0 --save-dev

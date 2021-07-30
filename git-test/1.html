@@ -8,5 +8,12 @@
   <body></body>
   <script>
     console.log(1);
+    export function checkEmail(email) {
+      const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+      if (email && email.length > 0) {
+        return reg.test(email);
+      }
+      return false;
+    }
   </script>
 </html>
